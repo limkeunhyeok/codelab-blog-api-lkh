@@ -38,15 +38,19 @@ export default class UsController {
 
     async getPosts({ auth, request } : HttpContextContract) {
         const { page, perPage } = request.qs();
-        return await Post.query().orderBy('publish_at', 'desc')
-            .where('user_id', auth.user?.id)
-            .paginate(page || 1, perPage || 12)
+        if (auth.user?.id) {
+            return await Post.query().orderBy('publish_at', 'desc')
+                .where('user_id', auth.user?.id)
+                .paginate(page || 1, perPage || 12)
+        }
     }
     
     async getPost({ auth, params } : HttpContextContract) {
         const { slug } = params;
-        return await Post.query().where('user_id', auth.user?.id)
-            .where('slug', slug)
-            .firstOrFail()
+        if (auth.user?.id) {
+            return await Post.query().where('user_id', auth.user?.id)
+                .where('slug', slug)
+                .firstOrFail()
+        }
     }
 }
