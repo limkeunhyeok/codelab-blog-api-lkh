@@ -4,6 +4,7 @@ coverage
 .vscode
 .DS_STORE
 .env
+.env_local
 tm
 
 .idea
